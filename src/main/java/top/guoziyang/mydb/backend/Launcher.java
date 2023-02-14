@@ -10,10 +10,13 @@ import top.guoziyang.mydb.backend.dm.DataManager;
 import top.guoziyang.mydb.backend.server.Server;
 import top.guoziyang.mydb.backend.tbm.TableManager;
 import top.guoziyang.mydb.backend.tm.TransactionManager;
+import top.guoziyang.mydb.backend.tm.TransactionManagerImpl;
 import top.guoziyang.mydb.backend.utils.Panic;
 import top.guoziyang.mydb.backend.vm.VersionManager;
 import top.guoziyang.mydb.backend.vm.VersionManagerImpl;
 import top.guoziyang.mydb.common.Error;
+
+import java.io.File;
 
 public class Launcher {
 
@@ -24,18 +27,25 @@ public class Launcher {
 	public static final long MB = 1 << 20;
 	public static final long GB = 1 << 30;
 
+    private static final String DBPath = "D:\\0githubProject\\java\\MYDB\\tmp\\mydb";
+
     public static void main(String[] args) throws ParseException {
         Options options = new Options();
         options.addOption("open", true, "-open DBPath");
         options.addOption("create", true, "-create DBPath");
         options.addOption("mem", true, "-mem 64MB");
         if(args.length == 0){
-            // 命令行无法启动，原因1是路径问题(已解决)，
+            // 命令行无法启动，原因1是路径问题(已解决)根据运行的操作系统更换路径，
             // 原因2(未解决)是：No plugin found for prefix '.args=-create D' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories
             // mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.backend.Launcher" -Dexec.args="-open /tmp/mydb"
+            // 原因3(已解决)是 create(新建数据库) || open(打开数据库) 关键字的问题，初次运行应该使用-create
             args = new String[2];
-            args[0] = "-open";
-            args[1] = "D:\\0githubProject\\java\\MYDB\\tmp\\mydb";
+            if((new File(DBPath + TransactionManagerImpl.XID_SUFFIX)).exists()){
+                args[0] = "-open";
+            }else {
+                args[0] = "-create";
+            }
+            args[1] = DBPath;
         }
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd = parser.parse(options, args);

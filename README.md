@@ -28,9 +28,12 @@ mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.backend.Launcher" -Dexec.args
 ```
 
 随后通过以下命令以默认参数启动数据库服务：
-
+top.guoziyang.mydb.backend.Launcher 类，则是服务器的启动入口。这个类解析了命令行参数。很重要的参数就是 -open 或者 -create。Launcher 根据两个参数，来决定是创建数据库文件，还是启动一个已有的数据库。
 ```shell
 mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.backend.Launcher" -Dexec.args="-open /tmp/mydb"
+```
+```shell
+mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.backend.Launcher" -Dexec.args="-create /tmp/mydb"
 ```
 
 这时数据库服务就已经启动在本机的 9999 端口。重新启动一个终端，执行以下命令启动客户端连接数据库：
@@ -44,3 +47,12 @@ mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.client.Launcher"
 一个执行示例：
 
 ![](https://s3.bmp.ovh/imgs/2021/11/2749906870276904.png)
+
+
+create table test_table id int32, value int32 (index id)
+insert into test table values 10 33
+select * from test table where id=10
+begin
+insert into test table values 20 34
+commit
+select * from test table where id>0
