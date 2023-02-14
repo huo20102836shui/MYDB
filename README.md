@@ -50,9 +50,9 @@ mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.client.Launcher"
 
 
 create table test_table id int32, value int32 (index id)
-insert into test table values 10 33
-select * from test table where id=10
+insert into test_table values 10 33
+select * from test_table where id=10
 begin
-insert into test table values 20 34
+insert into test_table values 20 34
 commit
-select * from test table where id>0
+select * from test_table where id>0
