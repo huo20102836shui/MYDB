@@ -29,8 +29,15 @@ public class Launcher {
         options.addOption("open", true, "-open DBPath");
         options.addOption("create", true, "-create DBPath");
         options.addOption("mem", true, "-mem 64MB");
+        if(args.length == 0){
+            // 命令行无法启动
+            // mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.backend.Launcher" -Dexec.args="-open /tmp/mydb"
+            args = new String[2];
+            args[0] = "-open";
+            args[1] = "D:\\0githubProject\\java\\MYDB\\tmp\\mydb";
+        }
         CommandLineParser parser = new DefaultParser();
-        CommandLine cmd = parser.parse(options,args);
+        CommandLine cmd = parser.parse(options, args);
 
         if(cmd.hasOption("open")) {
             openDB(cmd.getOptionValue("open"), parseMem(cmd.getOptionValue("mem")));
