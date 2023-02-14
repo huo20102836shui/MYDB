@@ -30,7 +30,8 @@ public class Launcher {
         options.addOption("create", true, "-create DBPath");
         options.addOption("mem", true, "-mem 64MB");
         if(args.length == 0){
-            // 命令行无法启动
+            // 命令行无法启动，原因1是路径问题(已解决)，
+            // 原因2(未解决)是：No plugin found for prefix '.args=-create D' in the current project and in the plugin groups [org.apache.maven.plugins, org.codehaus.mojo] available from the repositories
             // mvn exec:java -Dexec.mainClass="top.guoziyang.mydb.backend.Launcher" -Dexec.args="-open /tmp/mydb"
             args = new String[2];
             args[0] = "-open";
